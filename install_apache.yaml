@@ -4,16 +4,19 @@
   become: true
   tasks: 
 
-  - name: update repositary index
-    apt:
+  - name: Install Apache & PHP packages
+    package:
+            name: 
+                - "{{apache_package}}"
+                - "{{php_package}}"
+            state: latest
             update_cache: yes
 
-  - name: install apache2 package
-    apt:
-            name: apache2
-            state: latest
-
-  - name: add php support for apache
-    apt:
-            name: libapache2-mod-php
-            state: latest
+  - name: "Copying File"
+    tags: apache2
+    copy:
+            src: default_site.html
+            dest: /tmp/index.html
+            owner: root
+            group: root
+            mode: 0644
